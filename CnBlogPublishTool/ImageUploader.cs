@@ -10,7 +10,7 @@ namespace CnBlogPublishTool
 
         static ImageUploader()
         {
-            BlogClient=new Client(new BlogConnectionInfo("http://www.cnblogs.com/stulzq", "https://rpc.cnblogs.com/metaweblog/stulzq", "stulzq","stulzq","@xiaoCHEN520"));
+            BlogClient=new Client(new BlogConnectionInfo("http://www.cnblogs.com/stulzq", "https://rpc.cnblogs.com/metaweblog/stulzq", "stulzq","stulzq",""));
         }
 
         public static string Upload(string filePath)
