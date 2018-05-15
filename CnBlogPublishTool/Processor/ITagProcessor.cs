@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CnBlogPublishTool
+namespace CnBlogPublishTool.Processor
 {
     public interface ITagProcessor
     {

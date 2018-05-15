@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using CnBlogPublishTool.Util;
 using MetaWeblogClient;
 
 namespace CnBlogPublishTool
@@ -8,9 +9,9 @@ namespace CnBlogPublishTool
     {
         public static Client BlogClient;
 
-        static ImageUploader()
+        public static void Init(BlogConnectionInfo info)
         {
-            BlogClient=new Client(new BlogConnectionInfo("http://www.cnblogs.com/stulzq", "https://rpc.cnblogs.com/metaweblog/stulzq", "stulzq","stulzq",""));
+            BlogClient=new Client(info);
         }
 
         public static string Upload(string filePath)

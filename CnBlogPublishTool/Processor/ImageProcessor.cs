@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CnBlogPublishTool
+namespace CnBlogPublishTool.Processor
 {
     public class ImageProcessor:ITagProcessor
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace CnBlogPublishTool
+namespace CnBlogPublishTool.Util
 {
     /// <summary>   
     /// 用于取得一个文本文件的编码方式(Encoding)。   
@@ -10,10 +10,7 @@ namespace CnBlogPublishTool
     public class TxtFileEncoder
     {
         public TxtFileEncoder()
-        {
-            //   
-            // TODO: 在此处添加构造函数逻辑   
-            //   
+        { 
         }
         /// <summary>   
         /// 取得一个文本文件的编码方式。如果无法在文件头部找到有效的前导符，Encoding.Default将被返回。   

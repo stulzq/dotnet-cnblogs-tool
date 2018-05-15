@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections;
 
-namespace CnBlogPublishTool
+namespace CnBlogPublishTool.Util
 {
     public class MimeMapping
     {
         private static Hashtable _mimeMappingTable;
 
-        private static void AddMimeMapping(string extension, string MimeType)
+        private static void AddMimeMapping(string extension, string mimeType)
         {
-            MimeMapping._mimeMappingTable.Add(extension, MimeType);
+            MimeMapping._mimeMappingTable.Add(extension, mimeType);
         }
 
-        public static string GetMimeMapping(string FileName)
+        public static string GetMimeMapping(string fileName)
         {
             string text = null;
-            int num = FileName.LastIndexOf('.');
-            if (0 < num && num > FileName.LastIndexOf('\\'))
+            int num = fileName.LastIndexOf('.');
+            if (0 < num && num > fileName.LastIndexOf('\\'))
             {
-                text = (string)MimeMapping._mimeMappingTable[FileName.Substring(num)];
+                text = (string)MimeMapping._mimeMappingTable[fileName.Substring(num)];
             }
             if (text == null)
             {
