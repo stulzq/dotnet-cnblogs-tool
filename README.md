@@ -1,42 +1,42 @@
-# ����԰��ݷ�������
+﻿# 博客园快捷发布工具
 
-## һ.׼������
+## 一.准备环境
 
-��װ.NET Core SDK: https://www.microsoft.com/net/learn/get-started/windows
+安装.NET Core SDK: https://www.microsoft.com/net/learn/get-started/windows
 
-## ��.����Release��
+## 二.编译Release包
 
-����`shell`�ļ��У�����`publish.bat`
+进入`shell`文件夹，运行`publish.bat`
 
->���ܻ�����ɱ�������󱨣���������
+>可能会引起杀毒软件误报，请允许。
 
-## ��.������ݷ�ʽ
+## 三.创建快捷方式
 
-���� `��Ŀ��Ŀ¼\Publish` �ļ��У�ѡ�� `CnBlogPublishTool.exe`�����Ҽ��˵���->��������ݷ�ʽ��
+进入 `项目根目录\Publish` 文件夹，选中 `CnBlogPublishTool.exe`，【右键菜单】->【创建快捷方式】
 
-Ȼ����� `��Ŀ��Ŀ¼\shell` �ļ��У�����`deploy.bat`
+然后进入 `项目根目录\shell` 文件夹，运行`deploy.bat`
 
-## ��.ʹ��
+## 四.使用
 
-ѡ��һ��MarkDown�ļ������Ҽ��˵���->�����͵���->��CnBlogPublishTool������Ὺʼ����ͼƬ���Զ��ϴ�������԰��
+选中一个MarkDown文件，【右键菜单】->【发送到】->【CnBlogPublishTool】，便会开始解析图片并自动上传到博客园。
 
-��һ��ʹ�û��������ò���ID�Ͳ���԰���û������룬�������tea���ܴ洢�������ʹ�á�
+第一次使用会让您配置博客ID和博客园的用户名密码，密码采用tea加密存储，请放心使用。
 
-## ��.ʹ����ʾ
+## 五.使用演示
 
 ![](assets/ys.gif)
 
-## ��.˵��
+## 六.说明
 
-- ����δ�ӹ�����ݴ����ƣ����������ԡ����緢��һ����MarkDown�ļ�������
+- 程序未加过多的容错机制，请勿暴力测试。比如发送一个非MarkDown文件到程序。
 
-- �ϴ�ͼƬ�������Ի��ƣ��������Ρ�
+- 上传图片具有重试机制，重试三次。
 
-- ֻ�б���·����ͼƬ�Ż��ϴ�������http/httpsԶ��ͼƬ�������
+- 只有本地路径的图片才会上传，所有http/https远程图片都会过滤
 
-- ͼƬ�ϴ�����Ժ󣬻��Զ�ת��md���ݱ��浽��`cnblog`��׺���ļ�����
+- 图片上传完毕以后，会自动转换md内容保存到带`cnblog`后缀的文件里面
 
-- ��������뵽�����Ŀ¼ɾ��`config.json`���������г��򣬽���������������
+- 密码错误请到程序根目录删除`config.json`后重新运行程序，将会让你设置密码
 
 
 
