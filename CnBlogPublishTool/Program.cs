@@ -75,6 +75,10 @@ namespace CnBlogPublishTool
                 Convert.ToBase64String(TeaHelper.Encrypt(Encoding.UTF8.GetBytes(pwd), _teaKey)));
 
             File.WriteAllText(ConfigFilePath,JsonConvert.SerializeObject(_connInfo));
+
+            _connInfo.Password = pwd;
+
+            ImageUploader.Init(_connInfo);
         }
 
         static void ProcessFile(string[] args)
@@ -109,7 +113,10 @@ namespace CnBlogPublishTool
                             if (File.Exists(imgPhyPath))
                             {
                                 var imgUrl = ImageUploader.Upload(imgPhyPath);
-                                ReplaceDic.Add(img, imgUrl);
+                                if (!ReplaceDic.ContainsKey(img))
+                                {
+                                    ReplaceDic.Add(img, imgUrl);
+                                }
                                 Console.WriteLine($"{img} 上传成功. {imgUrl}");
                             }
                             else
@@ -130,7 +137,7 @@ namespace CnBlogPublishTool
                         _fileContent = _fileContent.Replace(key, ReplaceDic[key]);
                     }
 
-                    string newFileName = _filePath.Substring(0, _filePath.LastIndexOf('.')) + "-cnblog-" +
+                    string newFileName = _filePath.Substring(0, _filePath.LastIndexOf('.')) + "-cnblog" +
                                          new FileInfo(_filePath).Extension;
                     File.WriteAllText(newFileName, _fileContent, TxtFileEncoder.GetEncoding(_filePath));
 
