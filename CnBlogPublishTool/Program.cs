@@ -20,6 +20,9 @@ namespace CnBlogPublishTool
         private static readonly Dictionary<string,string> ReplaceDic=new Dictionary<string, string>();
         static void Main(string[] args)
         {
+            Console.Title = "晓晨-博客快捷上传图片工具";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n\n\t\t\t欢迎使用晓晨-博客快捷上传图片工具，使用问题或者建议请联系QQ群4656606\n\n");
             //加载配置
             LoadConfig();
 
