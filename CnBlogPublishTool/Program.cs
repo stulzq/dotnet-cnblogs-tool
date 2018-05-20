@@ -139,7 +139,7 @@ namespace CnBlogPublishTool
 
                     string newFileName = _filePath.Substring(0, _filePath.LastIndexOf('.')) + "-cnblog" +
                                          new FileInfo(_filePath).Extension;
-                    File.WriteAllText(newFileName, _fileContent, TxtFileEncoder.GetEncoding(_filePath));
+                    File.WriteAllText(newFileName, _fileContent, EncodingType.GetType(_filePath));
 
                     Console.WriteLine($"处理完成！文件保存在：{newFileName}");
                 }
