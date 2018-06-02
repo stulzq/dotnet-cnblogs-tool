@@ -1,7 +1,6 @@
-﻿# 博客园快捷发布工具 [![NuGet][main-nuget-badge]][main-nuget]
+﻿# 博客园快捷发布工具 
 
-[main-nuget]: https://www.nuget.org/packages/dotnet-cnblog/
-[main-nuget-badge]: https://img.shields.io/nuget/v/dotnet-cnblog.svg?style=flat-square&label=nuget
+[![](https://img.shields.io/nuget/v/dotnet-cnblog.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/dotnet-cnblog)
 
 ## 一.准备环境
 
