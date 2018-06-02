@@ -1,9 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <!-- Optional performance setting - enables tiered JIT compilation-->
+    <TieredCompilation>true</TieredCompilation>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationIcon>program.ico</ApplicationIcon>
+    <PackageId>dotnet-cnblog</PackageId>
+    <Authors>stulzq</Authors>
+    <Company>stulzq</Company>
+    <Product>dotnet-cnblog</Product>
+    <Description>Cnblogs Article Quick Release Tool.</Description>
+    <Copyright>Copyright 2018 stulzq</Copyright>
+    <PackageProjectUrl>https://github.com/stulzq/CnBlogPublishTool</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/stulzq/CnBlogPublishTool/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>cnblogs</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
