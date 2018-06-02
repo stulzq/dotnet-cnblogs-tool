@@ -15,11 +15,20 @@ namespace CnBlogPublishTool
         private static string _fileDir;
         private static string _fileContent;
         private static byte[] _teaKey=new byte[]{21,52,33,78,52,45};
-        private const string ConfigFilePath = "config.json";
+        private static string _configFilePath;
         private static BlogConnectionInfo _connInfo;
         private static readonly Dictionary<string,string> ReplaceDic=new Dictionary<string, string>();
         static void Main(string[] args)
         {
+            _configFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "dotnet-cnblog.config.json");
+
+            if (args.Length==1&&args[0] == "reset")
+            {
+                File.Delete(_configFilePath);
+                Console.WriteLine("重置配置成功！");
+                return;
+            }
+
             Console.Title = "晓晨-博客快捷上传图片工具";
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n\n\t\t\t欢迎使用晓晨-博客快捷上传图片工具，使用问题或者建议请联系QQ群4656606\n\n");
@@ -41,9 +50,9 @@ namespace CnBlogPublishTool
 
         static void LoadConfig()
         {
-            if (File.Exists(ConfigFilePath))
+            if (File.Exists(_configFilePath))
             {
-                _connInfo = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(ConfigFilePath));
+                _connInfo = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(_configFilePath));
                 _connInfo.Password =
                     Encoding.UTF8.GetString(TeaHelper.Decrypt(Convert.FromBase64String(_connInfo.Password), _teaKey));
                 ImageUploader.Init(_connInfo);
@@ -73,8 +82,8 @@ namespace CnBlogPublishTool
                 blogid,
                 uname,
                 Convert.ToBase64String(TeaHelper.Encrypt(Encoding.UTF8.GetBytes(pwd), _teaKey)));
-
-            File.WriteAllText(ConfigFilePath,JsonConvert.SerializeObject(_connInfo));
+            
+            File.WriteAllText(_configFilePath,JsonConvert.SerializeObject(_connInfo));
 
             _connInfo.Password = pwd;
 
