@@ -29,6 +29,17 @@ dotnet tool install -g dotnet-cnblog
 第一次运行需要配置博客ID，账号密码等，按照提示输入即可，对信息采用tea加密算法进行加密存储。
 
 ![](assets/first-config.png)
+有可能如下情况:
+
+![5b8aaca060f93](https://i.loli.net/2018/09/01/5b8aaca060f93.png)
+
+原因是因为你没有配置path环境变量，我们可以查看下C:\Users\用户名.dotnet\tools 看看是否存在 dotnet-cnblog.exe。
+
+![5b8aad768599c](https://i.loli.net/2018/09/01/5b8aad768599c.png)
+
+如果存在就把这个目录添加到path环境变量即可。
+
+![5b8aae1eba289](https://i.loli.net/2018/09/01/5b8aae1eba289.png)
 
 ### 3.重置配置
 
