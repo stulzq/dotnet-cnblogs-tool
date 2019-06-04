@@ -67,6 +67,12 @@ dotnet-cnblog <markdown文件路径>
 
 >可能会引起杀毒软件误报，请允许。
 
+若出现 error NETSDK1053: Pack as tool does not support self contained. 则表示未完成，
+
+> 解决办法：进入`项目根目录\CnBlogPublishTool`文件夹，修改dotnet-cnblog.csproj，
+          删除`<PackAsTool>true</PackAsTool>`这条语句即可。
+
+
 ### 2.创建快捷方式
 
 进入 `项目根目录\Publish` 文件夹，选中 `dotnet-cnblog.exe`，【右键菜单】->【创建快捷方式】

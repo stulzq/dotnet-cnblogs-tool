@@ -1,8 +1,9 @@
 @echo off
-echo 准备发布
+echo Mission preparation..
 
 dotnet publish ..\CnBlogPublishTool.sln  -c Release -r win10-x86 -o ../Publish
 
-echo 发布完成
+echo mission accomplished!
 
 pause
+
