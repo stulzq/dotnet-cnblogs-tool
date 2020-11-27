@@ -66,7 +66,9 @@ namespace Dotnetcnblog
         static bool Init()
         {
             var context=new CommandContext();
-            context.AppConfigFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new InvalidOperationException(), CfgFileName);
+
+            var docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            context.AppConfigFilePath = Path.Combine(docPath,"dotnet-cnblog", CfgFileName);
 
             if (!File.Exists(context.AppConfigFilePath))
             {

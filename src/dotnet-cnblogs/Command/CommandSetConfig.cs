@@ -39,6 +39,12 @@ namespace Dotnetcnblog.Command
                 userName,
                 Convert.ToBase64String(TeaHelper.Encrypt(Encoding.UTF8.GetBytes(pwd), context.EncryptKey)));
 
+            var path = Path.GetDirectoryName(context.AppConfigFilePath);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path!);
+            }
+
             File.WriteAllText(context.AppConfigFilePath, JsonConvert.SerializeObject(config));
 
             ConsoleHelper.PrintMsg("配置设置成功！");
