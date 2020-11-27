@@ -51,7 +51,7 @@ namespace Dotnetcnblog.Command
                     //循环上传图片
                     foreach (var img in imgList)
                     {
-                        if (img.StartsWith("http"))
+                        if (img.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                         {
                             ConsoleHelper.PrintMsg($"图片跳过：{img} ");
                             continue;

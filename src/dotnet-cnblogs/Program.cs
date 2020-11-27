@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Dotnetcnblog.Command;
 using Dotnetcnblog.Utils;
 using McMaster.Extensions.CommandLineUtils;
@@ -36,12 +35,20 @@ namespace Dotnetcnblog
             }
         }
 
+        /// <summary>
+        /// 一级命令执行
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         private int OnExecute(CommandLineApplication app)
         {
             app.ShowHelp();
             return 0;
         }
 
+        /// <summary>
+        /// 打印标题
+        /// </summary>
         static void PrintTitle()
         {
             Console.WriteAscii("dotNet Cnblogs Tool", Color.FromArgb(244, 212, 255));
@@ -52,6 +59,10 @@ namespace Dotnetcnblog
             Console.WriteLine("");
         }
 
+        /// <summary>
+        /// 初始化，加载配置
+        /// </summary>
+        /// <returns></returns>
         static bool Init()
         {
             var context=new CommandContext();

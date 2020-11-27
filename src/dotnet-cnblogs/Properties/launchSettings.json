@@ -1,8 +1,7 @@
 {
   "profiles": {
     "dotnet-cnblog": {
-      "commandName": "Project",
-      "commandLineArgs": "proc -f \"d:\\a.md\""
+      "commandName": "Project"
     }
   }
 }
