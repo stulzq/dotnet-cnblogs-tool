@@ -2,7 +2,11 @@
 
 [![](https://img.shields.io/nuget/v/dotnet-cnblog.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/dotnet-cnblog)
 
-## 1.安装
+## 一.前言
+
+此工具解决的痛点是在本地编辑的 Markdown 文件里包含的图片，在博客园发布时，需要手动一张张的复制到博客园的编辑器中上传，十分麻烦，此文中有详细说明：[如何高效的编写与同步博客 （.NET Core 小工具实现）](https://www.cnblogs.com/stulzq/p/9043632.html)
+
+## 二.安装工具
 
 （1）具有 .NET Core/.NET 5 环境可以直接使用命令安装：
 
@@ -16,45 +20,35 @@ dotnet tool install --global dotnet-cnblog
 
 > 因为本工具是开源的，而且使用过程中需要输入密码，所以不要相信任何第三方下载，因为它们有可能被植入恶意代码，仅提供上面两种方式。
 
-## 2.使用
+## 三.使用
 
-第一次运行需要配置博客ID，账号密码等，按照提示输入即可，对信息采用tea加密算法进行加密存储。
+第一次运行需要配置博客ID，账号密码等，按照提示输入即可，对密码采用tea加密算法进行加密存储。
 
-![first-config](./assets/first-config.png)
+![](assets/668104-20201127164440482-852371747.png)
 
-> 需要账号密码是因为调用 MetaWeblog API 需要此信息
-
-如果安装成功，但是无法正常运行:
-
-![error](./assets/error.png)
-
-原因是因为你没有配置path环境变量，我们可以查看下C:\Users\用户名\\.dotnet\tools 看看是否存在 dotnet-cnblog.exe。
-
-![ls](./assets/ls.png)
-
-如果存在就把这个目录添加到path环境变量即可。
-
-![add_path](./assets/add_path.png)
+>需要账号密码是因为调用 MetaWeblog API 需要此信息
 
 ### 重置配置
 
 使用下面的命令重置配置:
+
 ````shell
 dotnet-cnblog reset
 ````
+![](assets/668104-20201127164512348-139991479.png)
 
-![reset](./assets/reset.png)
+### 四.上传图片
 
-## 3.处理 Markdown 文件中的图片
-
-使用命令对Markdown文件里的图片进行解析，上传到博客园，并且转换内容保存到新的文件中。
+对Markdown文件里的图片进行解析，上传到博客园，并且转换内容保存到新的文件中。
 
 ````shell
 dotnet-cnblog proc -f <markdown文件路径>
 ````
-![test](./assets/test.gif)
+![](assets/668104-20201127164728833-2082113229.png)
 
-## 4.说明
+处理过的内容保存在 `Markdown 原始文件名-cnblog.md` 中，复制粘贴到博客园的编辑器发布即可。
+
+## 五.其他说明
 
 - 程序未加过多的容错机制，请勿暴力测试。比如发送一个非MarkDown文件到程序。
 
@@ -65,6 +59,10 @@ dotnet-cnblog proc -f <markdown文件路径>
 - 图片上传完毕以后，会自动转换md内容保存到带`cnblog`后缀的文件里面
 
 - 密码错误请重置配置
+
+若上传接口报错，请到博客园后台设置  https://i.cnblogs.com/settings
+
+![](assets/668104-20201127164901378-1830341075.png)
 
 
 
