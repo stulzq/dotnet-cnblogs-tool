@@ -22,9 +22,12 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RootNamespace>Dotnetcnblog</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Colorful.Console" Version="1.2.11" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 

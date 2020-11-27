@@ -1,162 +1,75 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
-using CnBlogPublishTool.Processor;
-using CnBlogPublishTool.Util;
+using System.Threading.Tasks;
+using Dotnetcnblog.Command;
+using Dotnetcnblog.Utils;
+using McMaster.Extensions.CommandLineUtils;
 using MetaWeblogClient;
 using Newtonsoft.Json;
+using Console = Colorful.Console;
 
-namespace CnBlogPublishTool
+namespace Dotnetcnblog
 {
+    [Command(Name = "dotnet-cnblog", Description = "dotNet 博客园工具")]
+    [Subcommand(typeof(CommandReset))]
+    [Subcommand(typeof(CommandSetConfig))]
+    [Subcommand(typeof(CommandProcessFile))]
     class Program
     {
-        private static string _filePath;
-        private static string _fileDir;
-        private static string _fileContent;
-        private static byte[] _teaKey=new byte[]{21,52,33,78,52,45};
-        private static string _configFilePath;
-        private static BlogConnectionInfo _connInfo;
-        private static readonly Dictionary<string,string> ReplaceDic=new Dictionary<string, string>();
-        static void Main(string[] args)
+        private const string CfgFileName = "dotnet-cnblog.config.json";
+
+        private static int Main(string[] args)
         {
-            _configFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "dotnet-cnblog.config.json");
-
-            if (args.Length==1&&args[0] == "reset")
+            PrintTitle();
+            if (Init())
             {
-                File.Delete(_configFilePath);
-                Console.WriteLine("重置配置成功！");
-                return;
-            }
-
-            Console.Title = "晓晨-博客快捷上传图片工具";
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\n\t\t\t欢迎使用晓晨-博客快捷上传图片工具，使用问题或者建议请联系QQ群4656606\n\n");
-            //加载配置
-            LoadConfig();
-
-            if (args.Length == 0)
-            {
-                Console.WriteLine("请输入文件路径！");
+                return CommandLineApplication.Execute<Program>(args);
             }
             else
             {
-                ProcessFile(args);
-            }
-
-            Console.WriteLine("按任意键退出...");
-            Console.ReadKey();
-        }
-
-        static void LoadConfig()
-        {
-            if (File.Exists(_configFilePath))
-            {
-                _connInfo = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(_configFilePath));
-                _connInfo.Password =
-                    Encoding.UTF8.GetString(TeaHelper.Decrypt(Convert.FromBase64String(_connInfo.Password), _teaKey));
-                ImageUploader.Init(_connInfo);
-            }
-            else
-            {
-                SetConfig();
+                ConsoleHelper.PrintError("您还未设置配置，将引导你设置！");
+                var setConfig=new CommandSetConfig();
+                setConfig.Execute(CommandContextStore.Get());
+                return 0;
             }
         }
 
-        static void SetConfig()
+        private int OnExecute(CommandLineApplication app)
         {
-            Console.WriteLine("您是第一次运行本程序，请配置以下参数：");
-
-            Console.WriteLine("请输入博客ID：（如：https://www.cnblogs.com/stulzq 的博客id为 stulzq ）");
-            string blogid = Console.ReadLine();
-
-            Console.WriteLine("请输入用户名：");
-            string uname = Console.ReadLine();
-
-            Console.WriteLine("请输入密  码：");
-            string pwd = Console.ReadLine();
-
-            _connInfo =new BlogConnectionInfo(
-                "https://www.cnblogs.com/"+blogid,
-                "https://rpc.cnblogs.com/metaweblog/"+blogid,
-                blogid,
-                uname,
-                Convert.ToBase64String(TeaHelper.Encrypt(Encoding.UTF8.GetBytes(pwd), _teaKey)));
-            
-            File.WriteAllText(_configFilePath,JsonConvert.SerializeObject(_connInfo));
-
-            _connInfo.Password = pwd;
-
-            ImageUploader.Init(_connInfo);
+            app.ShowHelp();
+            return 0;
         }
 
-        static void ProcessFile(string[] args)
+        static void PrintTitle()
         {
-            try
+            Console.WriteAscii("dotNet Cnblogs Tool", Color.FromArgb(244, 212, 255));
+            Console.Write("作者：", Color.FromArgb(90, 212, 255));
+            Console.WriteLine("晓晨Master", Color.FromArgb(200, 212, 255));
+            Console.Write("问题反馈：", Color.FromArgb(90, 212, 255));
+            Console.WriteLine("https://github.com/stulzq/dotnet-cnblogs-tool/issues ", Color.FromArgb(200, 212, 255));
+            Console.WriteLine("");
+        }
+
+        static bool Init()
+        {
+            var context=new CommandContext();
+            context.AppConfigFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new InvalidOperationException(), CfgFileName);
+
+            if (!File.Exists(context.AppConfigFilePath))
             {
-                _filePath = args[0];
-                if (!File.Exists(_filePath))
-                {
-                    Console.WriteLine("指定的文件不存在！");
-                }
-                else
-                {
-                    _fileDir = new FileInfo(_filePath).DirectoryName;
-                    _fileContent = File.ReadAllText(_filePath);
-                    var imgProcessor = new ImageProcessor();
-                    var imgList = imgProcessor.Process(_fileContent);
-                    Console.WriteLine($"提取图片成功，共{imgList.Count}个.");
-
-                    //循环上传图片
-                    foreach (var img in imgList)
-                    {
-                        if (img.StartsWith("http"))
-                        {
-                            Console.WriteLine($"{img} 跳过.");
-                            continue;
-                        }
-
-                        try
-                        {
-                            string imgPhyPath = Path.Combine(_fileDir, img);
-                            if (File.Exists(imgPhyPath))
-                            {
-                                var imgUrl = ImageUploader.Upload(imgPhyPath);
-                                if (!ReplaceDic.ContainsKey(img))
-                                {
-                                    ReplaceDic.Add(img, imgUrl);
-                                }
-                                Console.WriteLine($"{img} 上传成功. {imgUrl}");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"{img} 未发现文件.");
-                            }
-
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
-                    }
-
-                    //替换
-                    foreach (var key in ReplaceDic.Keys)
-                    {
-                        _fileContent = _fileContent.Replace(key, ReplaceDic[key]);
-                    }
-
-                    string newFileName = _filePath.Substring(0, _filePath.LastIndexOf('.')) + "-cnblog" +
-                                         new FileInfo(_filePath).Extension;
-                    File.WriteAllText(newFileName, _fileContent, EncodingType.GetType(_filePath));
-
-                    Console.WriteLine($"处理完成！文件保存在：{newFileName}");
-                }
+                CommandContextStore.Set(context);
+                return false;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+
+            var config = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(context.AppConfigFilePath));
+            config.Password =
+                Encoding.UTF8.GetString(TeaHelper.Decrypt(Convert.FromBase64String(config.Password), context.EncryptKey));
+            context.ConnectionInfo = config;
+            ImageUploadHelper.Init(config);
+            CommandContextStore.Set(context);
+            return true;
         }
     }
 }

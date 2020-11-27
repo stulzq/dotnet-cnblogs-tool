@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace CnBlogPublishTool.Processor
+namespace Dotnetcnblog.TagHandlers
 {
-    public interface ITagProcessor
+    public interface ITagHandler
     {
         List<string> Process(string content);
     }
