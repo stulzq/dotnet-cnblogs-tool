@@ -28,16 +28,14 @@
   </PropertyGroup>
 
   <!-- 编译信息 -->
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <!-- 单文件 -->
-    <PublishSingleFile>true</PublishSingleFile>
+  <PropertyGroup>
     <!-- 预先部分AOT编译 -->
     <!--<PublishReadyToRun>true</PublishReadyToRun>-->
     <!-- 在主动剪裁模式下发布应用，在此模式下，将剪裁程序集中未使用的代码，并启用裁边器警告 -->
     <PublishTrimmed>true</PublishTrimmed>
     <IsTrimmable>true</IsTrimmable>
     <TrimMode>link</TrimMode>
-    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
+    <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
   </PropertyGroup>
 
   <ItemGroup>
