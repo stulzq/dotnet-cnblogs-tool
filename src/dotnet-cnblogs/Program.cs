@@ -15,6 +15,7 @@ namespace Dotnetcnblog
     [Subcommand(typeof(CommandReset))]
     [Subcommand(typeof(CommandSetConfig))]
     [Subcommand(typeof(CommandProcessFile))]
+    [Subcommand(typeof(CommandUploadImg))]
     class Program
     {
         private const string CfgFileName = "dotnet-cnblog.config.json";
