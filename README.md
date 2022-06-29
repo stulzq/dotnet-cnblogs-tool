@@ -18,15 +18,21 @@ dotnet tool install --global dotnet-cnblog
 
 下载地址： https://github.com/stulzq/dotnet-cnblogs-tool/releases
 
-> 因为本工具是开源的，而且使用过程中需要输入密码，所以不要相信任何第三方下载，因为它们有可能被植入恶意代码，仅提供上面两种方式。
+> 因为本工具是开源的，而且使用过程中需要输入 Token，所以不要相信任何第三方下载，因为它们有可能被植入恶意代码，仅提供上面两种方式。
 
 ## 三.使用
 
-第一次运行需要配置博客ID，账号密码等，按照提示输入即可，对密码采用tea加密算法进行加密存储。
+第一次运行需要配置博客ID，账号、Token等，按照提示输入即可，对密码采用tea加密算法进行加密存储。
 
 ![](assets/668104-20201127164440482-852371747.png)
 
->需要账号密码是因为调用 MetaWeblog API 需要此信息
+>需要账号、Token 是因为调用 MetaWeblog API 需要此信息
+
+Token 申请：https://i.cnblogs.com/settings
+
+![image](https://user-images.githubusercontent.com/13200155/176429548-bf374aa6-b16f-4b12-a464-c5adcaa86d14.png)
+
+2022.6.29 更新，请使用 MetaWeblog Token 替换原来的账户密码！！！
 
 ### 重置配置
 
