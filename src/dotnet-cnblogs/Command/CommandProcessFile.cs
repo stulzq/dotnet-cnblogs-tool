@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Web;
 using Dotnetcnblog.TagHandlers;
 using Dotnetcnblog.Utils;
 using McMaster.Extensions.CommandLineUtils;
@@ -59,7 +60,7 @@ namespace Dotnetcnblog.Command
 
                         try
                         {
-                            var imgPhyPath = Path.Combine(fileDir!, img);
+                            var imgPhyPath = HttpUtility.UrlDecode(Path.Combine(fileDir!, img));
                             if (File.Exists(imgPhyPath))
                             {
                                 var imgUrl = ImageUploadHelper.Upload(imgPhyPath);
