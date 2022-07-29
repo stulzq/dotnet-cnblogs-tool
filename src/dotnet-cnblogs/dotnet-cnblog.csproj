@@ -18,23 +18,23 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageTags>cnblogs</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.4.1</Version>
+    <Version>1.4.2</Version>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RootNamespace>Dotnetcnblog</RootNamespace>
-    <PackageReleaseNotes>升级到 .NET 5.0 并且重构代码，使用方法有小的变更，请查看文档 https://github.com/stulzq/dotnet-cnblogs-tool</PackageReleaseNotes>
+    <PackageReleaseNotes>兼容路径</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
-  <!-- 编译信息 -->
+  <!--编译信息-->
   <PropertyGroup>
-    <!-- 预先部分AOT编译 -->
+    <!--预先部分AOT编译-->
     <!--<PublishReadyToRun>true</PublishReadyToRun>-->
-    <!-- 在主动剪裁模式下发布应用，在此模式下，将剪裁程序集中未使用的代码，并启用裁边器警告 -->
-    <PublishTrimmed>true</PublishTrimmed>
-    <IsTrimmable>true</IsTrimmable>
-    <TrimMode>link</TrimMode>
+    <!--在主动剪裁模式下发布应用，在此模式下，将剪裁程序集中未使用的代码，并启用裁边器警告 -->
+<!--    <PublishTrimmed>true</PublishTrimmed>-->
+<!--    <IsTrimmable>true</IsTrimmable>-->
+<!--    <TrimMode>link</TrimMode>-->
     <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
   </PropertyGroup>
 
