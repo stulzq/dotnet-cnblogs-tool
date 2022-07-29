@@ -1,0 +1,104 @@
+name: Release_CLI_Stable
+
+on:
+    push:
+      tags:
+        - "*.*.*"
+        - "!*.*.*-beta*"
+        - "!*.*.*-rc*"
+
+jobs:
+    publish_cli:
+      name: Build and upload cli artifact
+      runs-on: ubuntu-latest    
+      strategy:
+          matrix:
+              targets:
+                  [
+                      "linux-x64",
+                      "osx-x64",
+                      "win-x86",
+                  ]
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v1
+        - name: Set up .NET Core
+          uses: actions/setup-dotnet@v1
+          with:
+              dotnet-version: "5.0.x"
+        - name: Publish .NET app
+          env:
+              RID: ${{ matrix.targets }}
+              VERSION: ${{ github.ref_name }}
+          run: dotnet publish src/dotnet-cnblogs/dotnet-cnblog.csproj -c Release -r $RID -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false -p:EnableCompressionInSingleFile=true --self-contained true --output /home/runner/work/clis/$RID
+
+        - name: Package assets
+          env:
+              RID: ${{ matrix.targets }}
+              VERSION: ${{ github.ref_name }}
+          run: |
+              mkdir /home/runner/work/release
+              ls /home/runner/work/clis/
+              zip -j /home/runner/work/release/dotnet-cnblogs.$VERSION.$RID.zip /home/runner/work/clis/$RID/*
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v2
+          with:
+              name: dotnet-cnblogs
+              path: /home/runner/work/release
+
+    publish_windows_x64_and_arm_aot:
+      name: Build and upload windows x64 and arm64 aot cli artifact
+      runs-on: windows-latest
+      strategy:
+          matrix:
+              targets:
+                  [
+                    "win-x64",
+                    "win-arm64"
+                  ]
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v1
+        - name: Setup .NET Core SDK 6.x
+          uses: actions/setup-dotnet@v2
+          with:
+            dotnet-version: 6.x
+        - name: Publish .NET app
+          env:
+              RID: ${{ matrix.targets }}
+              VERSION: ${{ github.ref_name }}
+          run: dotnet publish src/dotnet-cnblogs/dotnet-cnblog.csproj -c Release -r $($env:RID) -p:UseAot=true -p:DebugType=None -p:DebugSymbols=false --self-contained true --output ../publish/$($env:RID)
+
+        - name: Package assets
+          env:
+              RID: ${{ matrix.targets }}
+              VERSION: ${{ github.ref_name }}
+          run: |
+              mkdir ../release
+              rm -fo ../publish/$($env:RID)/*.pdb
+              ls ../publish/
+              Compress-Archive -Path ../publish/$($env:RID)/* -DestinationPath ../release/dotnet-cnblogs.$($env:VERSION).$($env:RID).zip
+        - name: Upload artifacts
+          uses: actions/upload-artifact@v2
+          with:
+              name: dotnet-cnblogs
+              path: D:/a/dotnet-cnblogs/release
+
+    release_cli:
+        name: Publish release
+        needs: ['publish_cli','publish_windows_x64_and_arm_aot']
+        runs-on: ubuntu-latest
+    
+        steps:          
+          - name: Download build artifacts
+            uses: actions/download-artifact@v1
+            with:
+              name: dotnet-cnblogs
+          - name: list dotnet-cnblogs
+            run: ls dotnet-cnblogs    
+          - name: Release
+            uses: softprops/action-gh-release@v1
+            if: startsWith(github.ref, 'refs/tags/')
+            with:
+                files: dotnet-cnblogs/**
+                generate_release_notes: true
